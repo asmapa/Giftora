@@ -2,11 +2,11 @@ import React from 'react'
 import home from "../assets/home.png"
 const Home = () => {
   return (
-    <section className="w-full h-screen ">
+    <section className="w-full h-screen mt-35">
       <img
         src={home}
         alt="Giftora by Asma"
-        className="w-full h-1/2 object-contain mt-2.5"
+        className="w-full h-1/2 object-contain "
       />
 
       <div className="bg-gradient-to-r from-pink-100 via-rose-50 to-purple-100 py-16 px-8 rounded-3xl shadow-xl my-8 mx-8">

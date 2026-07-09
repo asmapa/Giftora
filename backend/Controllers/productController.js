@@ -44,8 +44,35 @@ const getTrending = async(req,res)=>{
     }
 };
 
+const getProductById = async (req, res) => {
+
+    try {
+
+        const product = await Product.findOne({
+            productId: req.params.productId
+        });
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        res.json(product);
+
+    } catch (err) {
+
+        res.status(500).json({
+            message: err.message
+        });
+
+    }
+
+};
+
 module.exports = {
     addProduct,
     getProducts,
-    getTrending
+    getTrending,
+    getProductById
 };

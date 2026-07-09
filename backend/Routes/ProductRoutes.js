@@ -5,7 +5,8 @@ const router = express.Router();
 const {
     addProduct,
     getProducts,
-    getTrending
+    getTrending,
+    getProductById
 } = require("../Controllers/productController");
 
 router.post("/",addProduct);
@@ -13,5 +14,7 @@ router.post("/",addProduct);
 router.get("/",getProducts);
 
 router.get("/trending",getTrending);
+
+router.get("/:productId", getProductById);
 
 module.exports = router;

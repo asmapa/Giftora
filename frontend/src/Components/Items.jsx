@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 const Items = () => {
 
@@ -61,14 +63,15 @@ const Items = () => {
 
                             </p>
 
-                            <button
-                                className="mt-4 p-2 w-full border-2 border-black rounded-lg hover:bg-pink-400 hover:text-white"
-                            >
+                            <Link to={`/product/${product.productId}`}>
 
-                                More About Product
+    <button
+        className="mt-4 p-2 w-full border-2 border-black rounded-lg hover:bg-pink-400 hover:text-white"
+    >
+        More About Product
+    </button>
 
-                            </button>
-
+</Link>
                         </div>
 
                     ))

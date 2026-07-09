@@ -1,27 +1,42 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from './Components/Navbar'
-import Home from './Components/Home'
-import Items from './Components/Items'
-import Us from './Components/Us'
-import Contact from './Components/Contact'
+import Navbar from "./Components/Navbar";
 
+import HomePage from "./pages/HomePage";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-     <div className='overflow-x-hidden'>
-        <Navbar/>
-        <Home/>
-        <Items/>
-        <Us/>
-        <Contact/>
-     </div>
-      
-    </>
-  )
+
+    <BrowserRouter>
+
+      {/* Navbar stays on every page */}
+      <Navbar />
+
+      {/* Space for fixed navbar */}
+      <main className="pt-24">
+
+        <Routes>
+
+          <Route
+            path="/"
+            element={<HomePage />}
+          />
+
+          <Route
+            path="/product/:productId"
+            element={<ProductDetails />}
+          />
+
+        </Routes>
+
+      </main>
+
+    </BrowserRouter>
+
+  );
+
 }
 
-export default App
+export default App;

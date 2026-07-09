@@ -7,7 +7,7 @@ import {
 import logo from "../assets/logo2.png";
 const Navbar = () => {
   return (
-    <div>
+    <div className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
       <div className="bg-[#083B47] text-white text-center py-3 text-sm ">
         Free shipping on all orders above 500
       </div>
