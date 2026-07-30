@@ -1,38 +1,34 @@
-import {useState , useEffect} from "react"
+import {useState , useEffect,useContext} from "react"
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+import { CartContext } from "../context/CartContext";
 import React from 'react'
 
 const ProductDetails = () => {
-
+ const {addToCart} = useContext(CartContext);
  const {productId} = useParams();
  const [product, setProduct] = useState(null);
  const [loading, setLoading] = useState(true);
 
- useEffect(() => {
+useEffect(() => {
+    axios
+        .get("/product.json")
+        .then((response) => {
 
-        axios
+            const foundProduct = response.data.find(
+                (product) => product.productId === productId
+            );
 
-            .get(`http://localhost:5000/api/products/${productId}`)
+            setProduct(foundProduct);
+            setLoading(false);
 
-            .then((response) => {
+        })
+        .catch((err) => {
+            console.log(err);
+            setLoading(false);
+        });
 
-                setProduct(response.data);
-
-                setLoading(false);
-
-            })
-
-            .catch((err) => {
-
-                console.log(err);
-
-                setLoading(false);
-
-            });
-
-    }, [productId]);
+}, [productId]);
 
   if (loading) {
 
@@ -145,6 +141,8 @@ const ProductDetails = () => {
                     </div>
 
                     <button
+
+                       onClick={()=>addToCart(product)}
 
                         className="mt-10 bg-pink-500 text-white px-8 py-3 rounded-lg hover:bg-pink-600"
 

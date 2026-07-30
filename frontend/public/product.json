@@ -1,0 +1,242 @@
+[
+  {
+    "productId": "P001",
+    "name": "Red Rose Bouquet",
+    "trending": "Yes",
+    "category": "Flowers",
+    "description": "Fresh red roses bouquet for special occasions.",
+    "price": 799,
+    "stock": 25,
+    "images": [
+      "https://picsum.photos/seed/P001/400/400"
+    ]
+  },
+  {
+    "productId": "P002",
+    "name": "Chocolate Gift Box",
+    "trending": "Yes",
+    "category": "Gifts",
+    "description": "Premium assorted chocolates.",
+    "price": 599,
+    "stock": 30,
+    "images": [
+      "https://picsum.photos/seed/P002/400/400"
+    ]
+  },
+  {
+    "productId": "P003",
+    "name": "Personalized Mug",
+    "trending": "No",
+    "category": "Personalized",
+    "description": "Custom printed ceramic mug.",
+    "price": 349,
+    "stock": 40,
+    "images": [
+      "https://picsum.photos/seed/P003/400/400"
+    ]
+  },
+  {
+    "productId": "P004",
+    "name": "Teddy Bear",
+    "trending": "Yes",
+    "category": "Soft Toys",
+    "description": "Cute brown teddy bear.",
+    "price": 899,
+    "stock": 20,
+    "images": [
+      "https://picsum.photos/seed/P004/400/400"
+    ]
+  },
+  {
+    "productId": "P005",
+    "name": "Greeting Card",
+    "trending": "No",
+    "category": "Cards",
+    "description": "Handmade birthday greeting card.",
+    "price": 149,
+    "stock": 100,
+    "images": [
+      "https://picsum.photos/seed/P005/400/400"
+    ]
+  },
+  {
+    "productId": "P006",
+    "name": "Photo Frame",
+    "trending": "Yes",
+    "category": "Home Decor",
+    "description": "Wooden photo frame.",
+    "price": 499,
+    "stock": 35,
+    "images": [
+      "https://picsum.photos/seed/P006/400/400"
+    ]
+  },
+  {
+    "productId": "P007",
+    "name": "Scented Candle",
+    "trending": "No",
+    "category": "Home Decor",
+    "description": "Lavender scented candle.",
+    "price": 299,
+    "stock": 45,
+    "images": [
+      "https://picsum.photos/seed/P007/400/400"
+    ]
+  },
+  {
+    "productId": "P008",
+    "name": "Love Cushion",
+    "trending": "Yes",
+    "category": "Cushions",
+    "description": "Heart-shaped cushion.",
+    "price": 450,
+    "stock": 28,
+    "images": [
+      "https://picsum.photos/seed/P008/400/400"
+    ]
+  },
+  {
+    "productId": "P009",
+    "name": "Ferrero Rocher Pack",
+    "trending": "Yes",
+    "category": "Chocolates",
+    "description": "16-piece Ferrero Rocher pack.",
+    "price": 899,
+    "stock": 22,
+    "images": [
+      "https://picsum.photos/seed/P009/400/400"
+    ]
+  },
+  {
+    "productId": "P010",
+    "name": "Gift Hamper",
+    "trending": "Yes",
+    "category": "Gift Hampers",
+    "description": "Luxury gift hamper.",
+    "price": 1499,
+    "stock": 15,
+    "images": [
+      "https://picsum.photos/seed/P010/400/400"
+    ]
+  },
+  {
+    "productId": "P011",
+    "name": "Perfume",
+    "trending": "No",
+    "category": "Fragrance",
+    "description": "Long-lasting perfume.",
+    "price": 999,
+    "stock": 18,
+    "images": [
+      "https://picsum.photos/seed/P011/400/400"
+    ]
+  },
+  {
+    "productId": "P012",
+    "name": "Wrist Watch",
+    "trending": "Yes",
+    "category": "Accessories",
+    "description": "Elegant analog watch.",
+    "price": 1999,
+    "stock": 12,
+    "images": [
+      "https://picsum.photos/seed/P012/400/400"
+    ]
+  },
+  {
+    "productId": "P013",
+    "name": "Bluetooth Speaker",
+    "trending": "Yes",
+    "category": "Electronics",
+    "description": "Portable Bluetooth speaker.",
+    "price": 2499,
+    "stock": 10,
+    "images": [
+      "https://picsum.photos/seed/P013/400/400"
+    ]
+  },
+  {
+    "productId": "P014",
+    "name": "Mini Plant",
+    "trending": "No",
+    "category": "Plants",
+    "description": "Indoor decorative plant.",
+    "price": 399,
+    "stock": 50,
+    "images": [
+      "https://picsum.photos/seed/P014/400/400"
+    ]
+  },
+  {
+    "productId": "P015",
+    "name": "Coffee Mug Set",
+    "trending": "Yes",
+    "category": "Kitchen",
+    "description": "Set of two ceramic mugs.",
+    "price": 699,
+    "stock": 32,
+    "images": [
+      "https://picsum.photos/seed/P015/400/400"
+    ]
+  },
+  {
+    "productId": "P016",
+    "name": "Keychain",
+    "trending": "No",
+    "category": "Accessories",
+    "description": "Metal personalized keychain.",
+    "price": 199,
+    "stock": 70,
+    "images": [
+      "https://picsum.photos/seed/P016/400/400"
+    ]
+  },
+  {
+    "productId": "P017",
+    "name": "LED Photo Lamp",
+    "trending": "Yes",
+    "category": "Lighting",
+    "description": "Customized LED photo lamp.",
+    "price": 1299,
+    "stock": 14,
+    "images": [
+      "https://picsum.photos/seed/P017/400/400"
+    ]
+  },
+  {
+    "productId": "P018",
+    "name": "Gift Basket",
+    "trending": "No",
+    "category": "Gift Hampers",
+    "description": "Mixed snacks gift basket.",
+    "price": 899,
+    "stock": 25,
+    "images": [
+      "https://picsum.photos/seed/P018/400/400"
+    ]
+  },
+  {
+    "productId": "P019",
+    "name": "Luxury Pen",
+    "trending": "Yes",
+    "category": "Stationery",
+    "description": "Premium metal pen.",
+    "price": 799,
+    "stock": 16,
+    "images": [
+      "https://picsum.photos/seed/P019/400/400"
+    ]
+  },
+  {
+    "productId": "P020",
+    "name": "Handmade Scrapbook",
+    "trending": "Yes",
+    "category": "Handmade",
+    "description": "Beautiful handmade scrapbook.",
+    "price": 999,
+    "stock": 18,
+    "images": [
+      "https://picsum.photos/seed/P020/400/400"
+    ]
+  }
+]
