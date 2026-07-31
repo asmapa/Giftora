@@ -1,166 +1,86 @@
-import {useState , useEffect,useContext} from "react"
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+
 import { CartContext } from "../context/CartContext";
-import React from 'react'
+
+import ProductInfo from "../components/productOne/ProductInfo";
+import DelivaryInfo from "../components/productOne/DelivaryInfo";
+import ProductDescription from "../components/productOne/ProductDescription";
+import RelatedProducts from "../components/productOne/RelatedProducts";
 
 const ProductDetails = () => {
- const {addToCart} = useContext(CartContext);
- const {productId} = useParams();
- const [product, setProduct] = useState(null);
- const [loading, setLoading] = useState(true);
+  const { productId } = useParams();
+  const { addToCart } = useContext(CartContext);
 
-useEffect(() => {
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
     axios
-        .get("/product.json")
-        .then((response) => {
+      .get("/product.json")
+      .then((response) => {
+        setProducts(response.data);
 
-            const foundProduct = response.data.find(
-                (product) => product.productId === productId
-            );
-
-            setProduct(foundProduct);
-            setLoading(false);
-
-        })
-        .catch((err) => {
-            console.log(err);
-            setLoading(false);
-        });
-
-}, [productId]);
-
-  if (loading) {
-
-        return (
-
-            <div className="text-center text-2xl mt-20">
-
-                Loading...
-
-            </div>
-
+        const foundProduct = response.data.find(
+          (item) => item.productId === productId
         );
 
-    }
+        setProduct(foundProduct);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, [productId]);
 
+  if (loading) {
     return (
-
-        <div className="max-w-7xl mt-28 px-10 py-16">
-
-            <div className="grid md:grid-cols-2 gap-12">
-
-                {/* LEFT */}
-
-                <div>
-
-                    <img
-
-                        src={product.images[0]}
-
-                        alt={product.name}
-
-                        className="w-full rounded-xl shadow-lg"
-
-                    />
-
-                </div>
-
-                {/* RIGHT */}
-
-                <div>
-
-                    <h1 className="text-4xl font-bold">
-
-                        {product.name}
-
-                    </h1>
-
-                    <p className="text-pink-600 text-3xl mt-5">
-
-                        ₹ {product.price}
-
-                    </p>
-
-                    <p className="mt-6 text-gray-600 leading-8">
-
-                        {product.description}
-
-                    </p>
-
-                    <div className="mt-8">
-
-                        <p>
-
-                            <span className="font-bold">
-
-                                Category :
-
-                            </span>
-
-                            {" "}
-
-                            {product.category}
-
-                        </p>
-
-                        <p className="mt-2">
-
-                            <span className="font-bold">
-
-                                Stock :
-
-                            </span>
-
-                            {" "}
-
-                            {
-
-                                product.stock > 0
-
-                                ?
-
-                                <span className="text-green-600">
-
-                                    In Stock
-
-                                </span>
-
-                                :
-
-                                <span className="text-red-600">
-
-                                    Out of Stock
-
-                                </span>
-
-                            }
-
-                        </p>
-
-                    </div>
-
-                    <button
-
-                       onClick={()=>addToCart(product)}
-
-                        className="mt-10 bg-pink-500 text-white px-8 py-3 rounded-lg hover:bg-pink-600"
-
-                    >
-
-                        Add To Cart
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
+      <div className="flex justify-center items-center h-screen text-2xl font-semibold">
+        Loading...
+      </div>
     );
+  }
 
+  if (!product) {
+    return (
+      <div className="flex justify-center items-center h-screen text-2xl font-semibold">
+        Product Not Found
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-gray-50 min-h-screen pt-28 pb-16">
+
+      <div className="max-w-7xl mx-auto px-5">
+
+        {/* Product Information */}
+        <ProductInfo
+          product={product}
+          addToCart={addToCart}
+        />
+
+        {/* Delivery */}
+        <DelivaryInfo />
+
+        {/* Description */}
+        <ProductDescription
+          product={product}
+        />
+
+        {/* Related Products */}
+        <RelatedProducts
+          currentProduct={product}
+          products={products}
+        />
+
+      </div>
+
+    </div>
+  );
 };
 
-
-export default ProductDetails
+export default ProductDetails;
