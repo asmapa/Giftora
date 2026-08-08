@@ -2,7 +2,8 @@ import React from 'react'
 import {
  FaSearch,
  FaRegUser,
- FaShoppingBag
+ FaShoppingBag,
+ FaRegHeart
 } from "react-icons/fa";
 import {useContext} from "react"
 import { CartContext } from "../context/CartContext";
@@ -12,7 +13,8 @@ import logo from "../assets/logo.png";
 
 const Navbar = () => {
 const { cart } = useContext(CartContext);
-  const cartCount = cart.reduce((total, item) => {
+const wishlistCount = 0;
+const cartCount = cart.reduce((total, item) => {
     return total + item.quantity;
 }, 0);
 
@@ -62,6 +64,16 @@ const { cart } = useContext(CartContext);
 
       </div>
 
+      <div className="relative">
+  <FaRegHeart />
+
+  {wishlistCount > 0 && (
+    <span className="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+      {wishlistCount}
+    </span>
+  )}
+</div>
+
     </div>
 
   </div>
@@ -83,6 +95,31 @@ const { cart } = useContext(CartContext);
       <a href="#">Contact</a>
     </div>
 
+    <div className="mt-3 border-t border-pink-100 pt-2 w-full">
+
+  {/* Scroll container */}
+  <div className="overflow-x-auto whitespace-nowrap scrollbar-hide">
+
+    {/* Content row */}
+    <div className="inline-flex gap-3 px-3 pb-1">
+
+      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Necklace</button>
+      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Rings</button>
+      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Earrings</button>
+      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Bracelets</button>
+      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Bangles</button>
+      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Chains</button>
+      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Gift Sets</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+    
+    
+
   </div>
 
   {/* Desktop Icons */}
@@ -101,6 +138,17 @@ const { cart } = useContext(CartContext);
       )}
 
     </div>
+
+
+    <div className="relative">
+  <FaRegHeart />
+
+  {wishlistCount > 0 && (
+    <span className="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+      {wishlistCount}
+    </span>
+  )}
+</div>
 
   </div>
 

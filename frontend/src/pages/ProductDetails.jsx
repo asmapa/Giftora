@@ -4,10 +4,10 @@ import axios from "axios";
 
 import { CartContext } from "../context/CartContext";
 
-import ProductInfo from "../components/productOne/ProductInfo";
-import DelivaryInfo from "../components/productOne/DelivaryInfo";
-import ProductDescription from "../components/productOne/ProductDescription";
-import RelatedProducts from "../components/productOne/RelatedProducts";
+import ProductInfo from "../Components/productOne/ProductInfo";
+import DelivaryInfo from "../Components/productOne/DelivaryInfo";
+import ProductDescription from "../Components/productOne/ProductDescription";
+import RelatedProducts from "../Components/productOne/RelatedProducts";
 
 const ProductDetails = () => {
   const { productId } = useParams();
