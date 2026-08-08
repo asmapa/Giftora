@@ -98,7 +98,7 @@ const CartPage = () => {
             </div>
 
             <a
-              href={`https://wa.me/8086889063?text=Hi Eshaal Designs, I want to order:%0A%0A${whatsappMessage}%0A%0ATotal: ₹${totalPrice}`}
+              href={`https://wa.me/918086889063?text=Hi Eshaal Designs, I want to order:%0A%0A${whatsappMessage}%0A%0ATotal: ₹${totalPrice}`}
               target="_blank"
               rel="noreferrer"
             >
