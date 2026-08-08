@@ -95,26 +95,38 @@ const cartCount = cart.reduce((total, item) => {
       <a href="#">Contact</a>
     </div>
 
-    <div className="mt-3 border-t border-pink-100 pt-2 w-full">
+    <div className="mt-3 border-t border-pink-100 pt-3 px-3">
+  <div className="grid grid-cols-4 gap-2 text-center">
 
-  {/* Scroll container */}
-  <div className="overflow-x-auto whitespace-nowrap scrollbar-hide">
+    <button className="rounded-full text-pink-500 py-2 text-[11px] font-medium text-gray-700">
+      Necklace
+    </button>
 
-    {/* Content row */}
-    <div className="inline-flex gap-3 px-3 pb-1">
+    <button className="rounded-full text-pink-500 py-2 text-[11px] font-medium text-gray-700">
+      Rings
+    </button>
 
-      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Necklace</button>
-      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Rings</button>
-      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Earrings</button>
-      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Bracelets</button>
-      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Bangles</button>
-      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Chains</button>
-      <button className="shrink-0 rounded-full bg-pink-50 px-3 py-1 text-[13px] font-medium text-gray-700">Gift Sets</button>
+    <button className="rounded-full text-pink-500 py-2 text-[11px] font-medium text-gray-700">
+      Earrings
+    </button>
 
-    </div>
+    <button className="rounded-full text-pink-500  py-2 text-[11px] font-medium text-gray-700">
+      Bracelets
+    </button>
+
+    <button className="rounded-full text-pink-500 py-2 text-[11px] font-medium text-gray-700">
+      Bangles
+    </button>
+
+    <button className="rounded-full text-pink-500 py-2 text-[11px] font-medium text-gray-700">
+      Chains
+    </button>
+
+    <button className="rounded-full text-pink-500 py-2 text-[11px] font-medium text-gray-700 col-span-2">
+      Gift Sets
+    </button>
 
   </div>
-
 </div>
 
     
