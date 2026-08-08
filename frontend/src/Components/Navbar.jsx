@@ -8,12 +8,14 @@ import {
 import {useContext} from "react"
 import { CartContext } from "../context/CartContext";
 import logo from "../assets/logo.png";
-
-
+import { WishlistContext } from '../context/WishlistContext';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 const { cart } = useContext(CartContext);
-const wishlistCount = 0;
+const { wishlist } = useContext(WishlistContext);
+const wishlistCount = wishlist.length;
+
 const cartCount = cart.reduce((total, item) => {
     return total + item.quantity;
 }, 0);
@@ -49,32 +51,37 @@ const cartCount = cart.reduce((total, item) => {
     </div>
 
     {/* Mobile Icons */}
-    <div className="flex lg:hidden gap-4 text-xl">
+<div className="flex lg:hidden gap-4 text-xl items-center">
 
-      <FaRegUser />
+  <FaRegUser className="cursor-pointer" />
 
-      <div className="relative">
-        <FaShoppingBag />
+  {/* Cart */}
+  <Link to="/cart" className="relative">
+    <FaShoppingBag className="cursor-pointer" />
 
-        {cartCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-            {cartCount}
-          </span>
-        )}
+    {cartCount > 0 && (
+      <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+        {cartCount}
+      </span>
+    )}
+  </Link>
 
-      </div>
+  {/* Wishlist */}
+  <Link to="/wishlist" className="relative">
+    <FaRegHeart className="cursor-pointer" />
 
-      <div className="relative">
-  <FaRegHeart />
+    {wishlistCount > 0 && (
+      <span className="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+        {wishlistCount}
+      </span>
+    )}
+  </Link>
 
-  {wishlistCount > 0 && (
-    <span className="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-      {wishlistCount}
-    </span>
-  )}
 </div>
 
-    </div>
+
+
+    
 
   </div>
 
@@ -102,35 +109,34 @@ const cartCount = cart.reduce((total, item) => {
 
   </div>
 
-  {/* Desktop Icons */}
-  <div className="hidden lg:flex gap-10 text-3xl justify-center">
+ {/* Desktop Icons */}
+<div className="hidden lg:flex items-center gap-6 text-2xl">
 
-    <FaRegUser />
+  <FaRegUser className="cursor-pointer hover:text-pink-600 transition" />
 
-    <div className="relative">
+  {/* Cart */}
+  <Link to="/cart" className="relative hover:text-pink-600 transition">
+    <FaShoppingBag />
 
-      <FaShoppingBag />
+    {cartCount > 0 && (
+      <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+        {cartCount}
+      </span>
+    )}
+  </Link>
 
-      {cartCount > 0 && (
-        <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-          {cartCount}
-        </span>
-      )}
+  {/* Wishlist */}
+  <Link to="/wishlist" className="relative hover:text-pink-600 transition">
+    <FaRegHeart />
 
-    </div>
+    {wishlistCount > 0 && (
+      <span className="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+        {wishlistCount}
+      </span>
+    )}
+  </Link>
 
-
-    <div className="relative">
-  <FaRegHeart />
-
-  {wishlistCount > 0 && (
-    <span className="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-      {wishlistCount}
-    </span>
-  )}
 </div>
-
-  </div>
 
 </nav>
 

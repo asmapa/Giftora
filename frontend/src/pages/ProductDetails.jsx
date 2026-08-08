@@ -18,23 +18,26 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("/product.json")
-      .then((response) => {
-        setProducts(response.data);
+  // 👇 Add this line
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        const foundProduct = response.data.find(
-          (item) => item.productId === productId
-        );
+  axios
+    .get('/product.json')
+    .then((response) => {
+      setProducts(response.data);
 
-        setProduct(foundProduct);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, [productId]);
+      const foundProduct = response.data.find(
+        (item) => item.productId === productId
+      );
+
+      setProduct(foundProduct);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.log(err);
+      setLoading(false);
+    });
+}, [productId]);
 
   if (loading) {
     return (

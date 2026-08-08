@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart } from 'lucide-react';
-
+import {  Eye } from 'lucide-react';
+import { WishlistContext } from '../context/WishlistContext';
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
 const Items = () => {
   const [products, setProducts] = useState([]);
-
+   
+  const { addToCart } = useContext(CartContext);
+const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
   useEffect(() => {
     axios
       .get('/product.json')
@@ -37,13 +42,19 @@ const Items = () => {
                 className="w-full h-48 sm:h-60 lg:h-72 object-cover group-hover:scale-105 transition-transform duration-500"
               />
 
-              {/* Wishlist Button */}
               <button
-                className="absolute top-3 right-3 bg-white/90 backdrop-blur p-2 rounded-full shadow hover:bg-pink-100 transition"
-                aria-label="Add to wishlist"
-              >
-                <Heart size={18} className="text-pink-600" />
-              </button>
+  onClick={() => toggleWishlist(product)}
+  className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
+>
+  <Heart
+    size={20}
+    className={
+      isInWishlist(product.productId)
+        ? 'fill-red-500 text-red-500'
+        : 'text-gray-500'
+    }
+  />
+</button>
             </div>
 
             {/* Content */}
@@ -61,23 +72,38 @@ const Items = () => {
               </p>
 
               {/* Buttons */}
-              <div className="mt-4 flex gap-2">
-                <button
-                  className="flex-1 flex items-center justify-center gap-2 bg-pink-600 text-white py-2 rounded-xl hover:bg-pink-700 transition text-sm font-medium shadow-sm"
-                >
-                  <ShoppingCart size={16} />
-                  Add
-                </button>
+              {/* Buttons */}
+<div className="mt-4 flex gap-2">
 
-                <Link
-                  to={`/product/${product.productId}`}
-                  className="flex-1"
-                >
-                  <button className="w-full border border-pink-300 text-pink-700 py-2 rounded-xl hover:bg-pink-50 transition text-sm font-medium">
-                    Details
-                  </button>
-                </Link>
-              </div>
+ {/* Add to Cart */}
+<button
+  onClick={() => addToCart(product)}
+  className="flex-1 flex items-center justify-center gap-2 bg-pink-600 text-white py-2 rounded-xl hover:bg-pink-700 transition text-sm font-medium shadow-sm"
+>
+  <ShoppingCart size={18} />
+  <span className="hidden sm:inline">Add</span>
+</button>
+
+  {/* Details */}
+  <Link
+    to={`/product/${product.productId}`}
+    className="flex-1"
+  >
+    <button
+      className="w-full flex items-center justify-center gap-2 border border-pink-300 text-pink-700 py-2 rounded-xl hover:bg-pink-50 transition text-sm font-medium"
+    >
+      <Eye size={18} />
+
+      {/* Show text only on desktop */}
+      <span className="hidden sm:inline">Details</span>
+    </button>
+  </Link>
+
+</div>
+
+
+
+
             </div>
           </div>
         ))}

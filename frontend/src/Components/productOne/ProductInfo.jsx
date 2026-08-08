@@ -115,12 +115,20 @@ const ProductInfo = ({ product, addToCart }) => {
             Add To Cart
           </button>
 
-          <button
-            className="flex items-center gap-2 bg-black hover:bg-gray-900 text-white px-8 py-3 rounded-lg transition"
-          >
-            <FaBolt />
-            Buy Now
-          </button>
+         <a
+  href={`https://wa.me/919876543210?text=Hi%20Eshaal%20Designs,%20I%20want%20to%20order:%20${encodeURIComponent(product.name)}`}
+  target="_blank"
+  rel="noreferrer"
+>
+  <button
+    className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg transition w-full justify-center font-medium shadow-md"
+  >
+    📱 Order on WhatsApp
+  </button>
+</a>
+<p className="text-sm text-gray-500 mt-2 text-center">
+  Tap the button to place your order directly through WhatsApp.
+</p>
 
         </div>
 

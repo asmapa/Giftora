@@ -18,40 +18,49 @@ const CartProvider = ({ children }) => {
 
     }, [cart]);
 
-    // Function to add product
-    const addToCart = (product) => {
+    const removeFromCart = (productId) => {
+  setCart((prev) =>
+    prev.filter((item) => item.productId !== productId)
+  );
+};
 
-        const existingProduct = cart.find(
-            item => item.productId === product.productId
+    // Function to add product
+   const addToCart = (product) => {
+
+    const existingProduct = cart.find(
+        item => item.productId === product.productId
+    );
+
+    if (existingProduct) {
+
+        const updatedCart = cart.map(item =>
+
+            item.productId === product.productId
+
+                ? { ...item, quantity: item.quantity + 1 }
+
+                : item
+
         );
 
-        if (existingProduct) {
+        setCart(updatedCart);
 
-            const updatedCart = cart.map(item =>
+    } else {
 
-                item.productId === product.productId
+        setCart([
+            ...cart,
+            {
+                ...product,
+                quantity: 1
+            }
+        ]);
 
-                    ? { ...item, quantity: item.quantity + 1 }
+    }
 
-                    : item
+};
 
-            );
 
-            setCart(updatedCart);
-
-        } else {
-
-            setCart([
-                ...cart,
-                {
-                    productId: product.productId,
-                    quantity: 1
-                }
-            ]);
-
-        }
-
-    };
+    
 
     return (
 
@@ -59,7 +68,8 @@ const CartProvider = ({ children }) => {
             value={{
                 cart,
                 setCart,
-                addToCart
+                addToCart,
+                removeFromCart
             }}
         >
 
