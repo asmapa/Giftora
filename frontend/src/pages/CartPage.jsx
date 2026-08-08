@@ -20,8 +20,9 @@ const CartPage = () => {
     .join('%0A');
 
   return (
-    <div className="max-w-7xl mx-auto px-4 pt-35 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Shopping Cart</h1>
+    <div className="max-w-7xl mx-auto px-4 pt-40 py-8">
+      <h1 className="text-3xl font-light ">Shopping Cart</h1>
+      <p className='mb-6 font-light'>Beautiful choices!  Complete your order in just one step.</p>
 
       {cart.length === 0 ? (
         <div className="text-center py-20">
@@ -97,7 +98,7 @@ const CartPage = () => {
             </div>
 
             <a
-              href={`https://wa.me/919876543210?text=Hi Eshaal Designs, I want to order:%0A%0A${whatsappMessage}%0A%0ATotal: ₹${totalPrice}`}
+              href={`https://wa.me/8086889063?text=Hi Eshaal Designs, I want to order:%0A%0A${whatsappMessage}%0A%0ATotal: ₹${totalPrice}`}
               target="_blank"
               rel="noreferrer"
             >

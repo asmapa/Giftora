@@ -4,7 +4,7 @@ import QuantitySelector from "./QuantitySelector";
 
 const ProductInfo = ({ product, addToCart }) => {
   return (
-    <div className="grid lg:grid-cols-2 gap-12 bg-white rounded-xl shadow-md p-6">
+    <div className="grid lg:grid-cols-2 gap-12 bg-white rounded-xl shadow-md p-6 mt-10">
 
       {/* LEFT SIDE - PRODUCT IMAGE */}
       <div className="flex justify-center items-center">
@@ -115,19 +115,9 @@ const ProductInfo = ({ product, addToCart }) => {
             Add To Cart
           </button>
 
-         <a
-  href={`https://wa.me/919876543210?text=Hi%20Eshaal%20Designs,%20I%20want%20to%20order:%20${encodeURIComponent(product.name)}`}
-  target="_blank"
-  rel="noreferrer"
->
-  <button
-    className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg transition w-full justify-center font-medium shadow-md"
-  >
-    📱 Order on WhatsApp
-  </button>
-</a>
+     
 <p className="text-sm text-gray-500 mt-2 text-center">
-  Tap the button to place your order directly through WhatsApp.
+  Open cart to place your order directly through WhatsApp.
 </p>
 
         </div>
