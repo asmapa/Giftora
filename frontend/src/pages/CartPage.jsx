@@ -132,6 +132,22 @@ const CartPage = () => {
           </div>
         </div>
       )}
+
+
+      {/* Developer Footer */}
+<div className="mt-10 pt-6 border-t border-pink-100 text-center">
+  <p className="text-sm text-gray-500">
+    Crafted with ❤ by{' '}
+    <span className="font-medium text-pink-700">Asma P A</span>
+  </p>
+
+  <a
+    href="mailto:asmapa.dev@gmail.com"
+    className="text-sm text-pink-600 hover:text-pink-700 hover:underline transition"
+  >
+    asmapa.dev@gmail.com
+  </a>
+</div>
     </div>
   );
 };
