@@ -8,7 +8,7 @@ import WishlistPage from './pages/WishlistPage';
 import HomePage from './pages/HomePage';
 import ProductDetails from './pages/ProductDetails';
 import AddProductPage from './pages/AddProductPage';
-import AdminLogin from '.pages/AdminLogin';
+import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './Components/AdminRoute';
 
