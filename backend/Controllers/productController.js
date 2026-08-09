@@ -70,9 +70,49 @@ const getProductById = async (req, res) => {
 
 };
 
+
+const updateProduct = async (req, res) => {
+  try {
+    const updatedProduct = await Product.findOneAndUpdate(
+      { productId: req.params.productId },
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json(updatedProduct);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  try {
+    const deletedProduct = await Product.findOneAndDelete({
+      productId: req.params.productId
+    });
+
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json({
+      message: 'Product deleted successfully'
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 module.exports = {
     addProduct,
     getProducts,
     getTrending,
-    getProductById
+    getProductById,
+    updateProduct,
+    deleteProduct
 };
