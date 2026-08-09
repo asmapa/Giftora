@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 
-import ProductsPage from './Pages/ProductsPage';
+import ProductsPage from './pages/ProductsPage';
 import Navbar from './Components/Navbar';
 
 import CartPage from './pages/CartPage';
 import WishlistPage from './pages/WishlistPage';
 import HomePage from './pages/HomePage';
 import ProductDetails from './pages/ProductDetails';
-import AddProductPage from './Pages/AddProductPage';
-import AdminLogin from './Pages/AdminLogin';
-import AdminDashboard from './Pages/AdminDashboard';
+import AddProductPage from './pages/AddProductPage';
+import AdminLogin from '.pages/AdminLogin';
+import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './Components/AdminRoute';
 
 // Layout component
@@ -60,7 +60,7 @@ function AppLayout() {
 
 
 
-          
+
           <Route
   path="/admin/products/add"
   element={
