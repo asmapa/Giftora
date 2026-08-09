@@ -9,11 +9,14 @@ import {useContext} from "react"
 import { CartContext } from "../context/CartContext";
 import logo from "../assets/logo.png";
 import { WishlistContext } from '../context/WishlistContext';
-import { Link } from 'react-router-dom';
 
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 const Navbar = () => {
 const { cart } = useContext(CartContext);
 const { wishlist } = useContext(WishlistContext);
+const [search, setSearch] = useState('');
+const navigate = useNavigate();
 const wishlistCount = wishlist.length;
 
 const cartCount = cart.reduce((total, item) => {
@@ -37,15 +40,22 @@ const cartCount = cart.reduce((total, item) => {
         alt="Giftora Logo"
         className="w-12 h-12 lg:w-16 lg:h-16 object-contain"
       />
-
-      <div className="relative">
+  <div className="relative">
         <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
 
         <input
-          type="text"
-          placeholder="Search..."
-          className="pl-9 pr-3 py-2 border rounded-full w-44 sm:w-56 lg:w-64 text-sm focus:ring-2 focus:ring-pink-400 outline-none"
-        />
+  type="text"
+  placeholder="Search jewelry..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' && search.trim() !== '') {
+      navigate(`/products?search=${encodeURIComponent(search.trim())}`);
+    }
+  }}
+  className="pl-9 pr-3 py-2 border rounded-full w-44 sm:w-56 lg:w-64 text-sm focus:ring-2 focus:ring-pink-400 outline-none"
+/>
+    
       </div>
 
     </div>
@@ -96,11 +106,27 @@ const cartCount = cart.reduce((total, item) => {
       Inspired by Elegance
     </h3>
 
-    <div className="flex justify-center gap-5 lg:gap-10 mt-4 text-sm lg:text-lg">
-      <a href="#">Shop</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-    </div>
+
+
+<div className="flex justify-center gap-5 lg:gap-10 mt-4 text-sm lg:text-lg font-medium">
+
+  <Link to="/#home" className="text-gray-700 hover:text-pink-600 transition">
+    Home
+  </Link>
+
+  <Link to="/products" className="text-gray-700 hover:text-pink-600 transition">
+    Shop
+  </Link>
+
+  <Link to="/#about" className="text-gray-700 hover:text-pink-600 transition">
+    About
+  </Link>
+
+  <Link to="/#contact" className="text-gray-700 hover:text-pink-600 transition">
+    Contact
+  </Link>
+
+</div>
 
     
 

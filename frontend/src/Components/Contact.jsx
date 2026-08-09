@@ -146,6 +146,29 @@ const Contact = () => {
         </div>
 
       </div>
+      {/* Developer Credit */}
+<div className="mt-12 pt-6 border-t border-pink-100 text-center">
+
+  <p className="text-sm sm:text-base text-gray-500">
+    Website designed & developed with ❤️ by
+  </p>
+
+  <p className="text-base sm:text-lg font-semibold text-pink-800 mt-1">
+    Asma P A
+  </p>
+
+  <a
+    href="mailto:asmapa.dev@gmail.com"
+    className="text-pink-600 hover:text-pink-700 underline underline-offset-4 text-sm sm:text-base"
+  >
+    asmapa.dev@gmail.com
+  </a>
+
+  <p className="text-xs text-gray-400 mt-3">
+    MERN Stack & Odoo Developer
+  </p>
+
+</div>
     </section>
   );
 };

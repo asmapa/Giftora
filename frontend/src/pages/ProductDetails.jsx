@@ -17,26 +17,21 @@ const ProductDetails = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-  // 👇 Add this line
+useEffect(() => {
+  // Scroll to top when product changes
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   axios
-    .get('/product.json')
+    .get(`https://giftora-7mmv.onrender.com/api/products/${productId}`)
     .then((response) => {
-      setProducts(response.data);
-
-      const foundProduct = response.data.find(
-        (item) => item.productId === productId
-      );
-
-      setProduct(foundProduct);
+      setProduct(response.data);
       setLoading(false);
     })
     .catch((err) => {
       console.log(err);
       setLoading(false);
     });
+
 }, [productId]);
 
   if (loading) {

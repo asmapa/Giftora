@@ -21,9 +21,27 @@ const CartPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-40 py-8">
-      <h1 className="text-3xl font-light ">Shopping Cart</h1>
-      <p className='mb-6 font-light'>Beautiful choices!  Complete your order in just one step.</p>
+    <div className="text-center py-8 border-b border-pink-100 mb-8">
 
+  <p className="text-pink-500 uppercase tracking-[4px] text-xs sm:text-sm font-semibold mb-2">
+    Eshaal D'signs
+  </p>
+
+  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-gray-800 leading-tight">
+    Your Jewelry Bag
+  </h1>
+
+  <p className="text-gray-500 mt-4 max-w-2xl mx-auto text-sm sm:text-base lg:text-lg leading-relaxed px-4">
+    Beautiful choices! Your selected treasures are waiting to be wrapped with love and delivered to your doorstep.
+  </p>
+
+  <div className="flex items-center justify-center gap-3 mt-6">
+    <span className="h-px w-12 bg-pink-200"></span>
+    <span className="text-pink-400 text-xl">✦</span>
+    <span className="h-px w-12 bg-pink-200"></span>
+  </div>
+
+</div>
       {cart.length === 0 ? (
         <div className="text-center py-20">
           <p className="text-gray-500 text-lg">Your cart is empty 🛍️</p>

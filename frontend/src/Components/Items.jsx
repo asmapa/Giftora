@@ -6,17 +6,22 @@ import {  Eye } from 'lucide-react';
 import { WishlistContext } from '../context/WishlistContext';
 import { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
+
+
+
+
 const Items = () => {
-  const [products, setProducts] = useState([]);
-   
-  const { addToCart } = useContext(CartContext);
+const [products, setProducts] = useState([]);
+const { addToCart } = useContext(CartContext);
 const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
-  useEffect(() => {
-    axios
-      .get('/product.json')
-      .then((response) => setProducts(response.data))
-      .catch((err) => console.log(err));
-  }, []);
+
+//Collecting Items
+ useEffect(() => {
+  axios
+    .get('https://giftora-7mmv.onrender.com/api/products')
+    .then((response) => setProducts(response.data))
+    .catch((err) => console.log(err));
+}, []);
 
   return (
     <div className="py-10 px-3 sm:px-6 lg:px-8 bg-pink-50 min-h-screen">
@@ -29,7 +34,7 @@ const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
       </p>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8 max-w-7xl mx-auto">
-        {products.map((product) => (
+        {products.slice(0,10).map((product) => (
           <div
             key={product.productId}
             className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-pink-100 hover:-translate-y-1"
@@ -59,13 +64,25 @@ const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
 
             {/* Content */}
             <div className="p-4 flex flex-col h-[220px]">
-              <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 line-clamp-2 min-h-[48px]">
+              <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800 line-clamp-2 min-h-[48px] mb-0">
                 {product.name}
               </h3>
 
-              <p className="text-pink-600 font-bold text-lg mt-2">
-                ₹ {product.price}
-              </p>
+              <p className="text-pink-600 font-bold text-lg ">
+  ₹ {product.price}
+</p>
+
+{product.stock > 0 ? (
+  <p className="text-green-600 text-sm font-medium mt-1 flex items-center gap-1">
+    <span className="w-2 h-2 bg-green-500 rounded-full inline-block"></span>
+    In Stock
+  </p>
+) : (
+  <p className="text-red-600 text-sm font-medium mt-1 flex items-center gap-1">
+    <span className="w-2 h-2 bg-red-500 rounded-full inline-block"></span>
+    Out of Stock
+  </p>
+)}
 
               <p className="text-gray-500 text-xs sm:text-sm mt-1 line-clamp-2 flex-grow">
                 {product.description}
@@ -109,12 +126,17 @@ const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
         ))}
       </div>
 
-      {/* Show All */}
-      <div className="flex justify-center mt-12">
-        <button className="bg-pink-700 hover:bg-pink-800 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition font-medium">
-          Show All Items
-        </button>
-      </div>
+     <div className="flex justify-center mt-12">
+  <Link to="/products">
+    <button className="bg-pink-700 hover:bg-pink-800 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition font-medium">
+      Show All Items
+    </button>
+  </Link>
+</div>
+
+
+
+
     </div>
   );
 };

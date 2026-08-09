@@ -11,13 +11,28 @@ const WishlistPage = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 pt-32 lg:pt-28 pb-8">
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">
-        Wishlist 
-      </h1>
+     <div className="text-center py-8 border-b border-pink-100 mb-8">
 
-      <p className="text-gray-500 mb-6">
-        A little collection of things you love 
-      </p>
+  <p className="text-pink-500 uppercase tracking-[4px] text-xs sm:text-sm font-semibold mb-2">
+    Eshaal D'signs
+  </p>
+
+  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-gray-800 leading-tight">
+    Your Wishlist
+  </h1>
+
+  <p className="text-gray-500 mt-4 max-w-2xl mx-auto text-sm sm:text-base lg:text-lg leading-relaxed px-4">
+    A curated collection of timeless treasures chosen by you.
+    Save your favorite pieces and return anytime to discover the sparkle that speaks to your style.
+  </p>
+
+  <div className="flex items-center justify-center gap-3 mt-6">
+    <span className="h-px w-12 bg-pink-200"></span>
+    <span className="text-pink-400 text-xl">✦</span>
+    <span className="h-px w-12 bg-pink-200"></span>
+  </div>
+
+</div>
 
       {wishlist.length === 0 ? (
 
