@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 // Category label shown to the user + the exact value used for filtering
 // on the Products page (must match the <option> values there).
@@ -22,22 +23,37 @@ const Home = () => {
   };
 
   return (
-    <section className="w-full mt-28 lg:mt-36">
+    <section id="home-hero" className="w-full mt-28 lg:mt-36">
 
       {/* Content */}
-      <div className="bg-gradient-to-br from-rose-50 via-pink-100 to-purple-100 rounded-2xl lg:rounded-3xl shadow-xl mx-4 sm:mx-8 lg:mx-12 my-8 p-6 sm:p-8 lg:p-16">
+      <div className="relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-100 to-purple-100 rounded-2xl lg:rounded-3xl shadow-xl mx-4 sm:mx-8 lg:mx-12 my-8 p-6 sm:p-8 lg:p-16">
 
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-pink-700">
+        {/* Decorative floating sparkles */}
+        <span className="hidden sm:block absolute top-8 left-10 text-pink-300 text-2xl animate-float select-none">✦</span>
+        <span className="hidden sm:block absolute top-16 right-16 text-purple-300 text-3xl animate-float-slow select-none">✧</span>
+        <span className="hidden sm:block absolute bottom-14 left-20 text-rose-300 text-xl animate-float select-none">✦</span>
+        <span className="hidden sm:block absolute bottom-24 right-24 text-pink-400 text-2xl animate-float-slow select-none">✧</span>
+        <div className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 bg-pink-300/30 rounded-full blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 w-72 h-72 bg-purple-300/30 rounded-full blur-3xl" />
+
+        {/* Badge */}
+        <div className="relative flex justify-center animate-fade-in-up">
+          <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-pink-600 shadow-sm border border-pink-200 tracking-wide">
+            ✨ New Collection Just Landed
+          </span>
+        </div>
+
+        <h2 className="relative text-3xl sm:text-4xl lg:text-5xl font-bold text-center mt-5 bg-gradient-to-r from-pink-600 via-rose-500 to-purple-600 bg-clip-text text-transparent animate-shimmer-text animate-fade-in-up animation-delay-100">
           Shine with Every Detail ✨
         </h2>
 
-        <p className="text-center text-gray-600 mt-3 italic text-sm sm:text-base lg:text-lg">
+        <p className="relative text-center text-gray-600 mt-3 italic text-sm sm:text-base lg:text-lg animate-fade-in-up animation-delay-200">
           Elegant Accessories for Every Style
         </p>
 
-        <div className="w-20 lg:w-24 h-1 bg-pink-500 mx-auto rounded-full my-6"></div>
+        <div className="relative w-20 lg:w-24 h-1 bg-gradient-to-r from-pink-400 to-rose-500 mx-auto rounded-full my-6 animate-fade-in-up animation-delay-300"></div>
 
-        <p className="max-w-5xl mx-auto text-center text-gray-700 text-base sm:text-lg leading-8">
+        <p className="relative max-w-5xl mx-auto text-center text-gray-700 text-base sm:text-lg leading-8 animate-fade-in-up animation-delay-300">
           At <span className="font-semibold text-pink-600">Eshaal D'signs</span>,
           we bring you a beautiful collection of fashion accessories designed to
           complement every outfit and occasion. Discover elegant
@@ -54,9 +70,9 @@ const Home = () => {
         </p>
 
         {/* Categories */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4 mt-10">
+        <div className="relative grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4 mt-10">
 
-          {categories.map((item) => (
+          {categories.map((item, index) => (
             <div
               key={item.label}
               onClick={() => goToCategory(item.value)}
@@ -65,10 +81,12 @@ const Home = () => {
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") goToCategory(item.value);
               }}
-              className="cursor-pointer bg-white rounded-xl shadow-md py-4 text-center hover:shadow-lg hover:-translate-y-1 hover:bg-pink-50 active:scale-95 transition"
+              style={{ animationDelay: `${300 + index * 80}ms` }}
+              className="animate-fade-in-up cursor-pointer bg-white/90 rounded-xl shadow-md py-4 text-center hover:shadow-xl hover:shadow-pink-200/60 hover:-translate-y-1.5 hover:bg-white active:scale-95 transition-all duration-300"
             >
-              <p className="font-semibold text-gray-700 text-sm lg:text-base">
-                {item.emoji} {item.label}
+              <p className="text-xl mb-1">{item.emoji}</p>
+              <p className="font-semibold text-gray-700 text-xs sm:text-sm lg:text-base">
+                {item.label}
               </p>
             </div>
           ))}
@@ -76,12 +94,16 @@ const Home = () => {
         </div>
 
         {/* Button */}
-        <div className="flex justify-center mt-10">
+        <div className="relative flex justify-center mt-10 animate-fade-in-up animation-delay-600">
           <button
             onClick={() => navigate("/products")}
-            className="bg-pink-700 hover:bg-pink-800 text-white px-8 py-3 rounded-full text-sm sm:text-base transition shadow-md hover:shadow-lg active:scale-95"
+            className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white px-8 py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-pink-400/50 hover:scale-105 animate-glow-pulse"
           >
             Shop Collection
+            <ArrowRight
+              size={18}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
           </button>
         </div>
 
