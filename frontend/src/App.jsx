@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import ProductsPage from './pages/ProductsPage';
 import Navbar from './Components/Navbar';
@@ -11,6 +12,37 @@ import AddProductPage from './pages/AddProductPage';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './Components/AdminRoute';
+
+// Scrolls to the matching section (Home / Shop / About / Contact) whenever
+// the URL hash changes - works even when navigating from a different page
+// (e.g. clicking "About" while on /products redirects home and scrolls there).
+function ScrollToHash() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+
+      // Retry briefly since the target section may still be mounting
+      // (e.g. HomePage just navigated to and its content is rendering).
+      let attempts = 0;
+      const tryScroll = () => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (attempts < 10) {
+          attempts += 1;
+          setTimeout(tryScroll, 100);
+        }
+      };
+      tryScroll();
+    } else {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [location.pathname, location.hash]);
+
+  return null;
+}
 
 // Layout component
 function AppLayout() {
@@ -25,6 +57,8 @@ function AppLayout() {
 
       {/* Show navbar only for customer pages */}
       {!isAdminRoute && <Navbar />}
+
+      <ScrollToHash />
 
       {/* Add top padding only when navbar exists */}
       <main className={isAdminRoute ? '' : 'pt-24'}>

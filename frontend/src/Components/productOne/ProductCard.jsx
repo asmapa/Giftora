@@ -1,10 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
+import { WishlistContext } from "../../context/WishlistContext";
+import ShareButton from "../ShareButton";
 
 const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
+  const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
+
   return (
-    <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
+    <div
+      onClick={() => navigate(`/product/${product.productId}`)}
+      className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer"
+    >
 
       {/* Image */}
       <div className="relative overflow-hidden">
@@ -22,10 +30,26 @@ const ProductCard = ({ product }) => {
           </span>
         )}
 
-        {/* Wishlist */}
-        <button className="absolute top-3 right-3 bg-white p-2 rounded-full shadow hover:bg-pink-100 transition">
-          <FaHeart className="text-gray-500 hover:text-pink-600" />
-        </button>
+        <div className="absolute top-3 right-3 flex flex-col gap-2">
+          {/* Wishlist */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleWishlist(product);
+            }}
+            className="bg-white p-2 rounded-full shadow hover:bg-pink-100 transition"
+          >
+            <FaHeart
+              className={
+                isInWishlist(product.productId)
+                  ? 'text-pink-600'
+                  : 'text-gray-500 hover:text-pink-600'
+              }
+            />
+          </button>
+
+          <ShareButton product={product} />
+        </div>
 
       </div>
 
@@ -50,6 +74,7 @@ const ProductCard = ({ product }) => {
 
         <Link
           to={`/product/${product.productId}`}
+          onClick={(e) => e.stopPropagation()}
           className="block text-center bg-pink-600 hover:bg-pink-700 text-white font-medium py-3 rounded-xl mt-5 transition"
         >
           View Details

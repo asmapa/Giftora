@@ -1,15 +1,23 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { WishlistContext } from '../context/WishlistContext';
 import { CartContext } from '../context/CartContext';
 import { FaTrash, FaShoppingCart } from 'react-icons/fa';
+import ShareButton from '../Components/ShareButton';
+import BackButton from '../Components/BackButton';
 
 const WishlistPage = () => {
 
   const { wishlist, toggleWishlist } = useContext(WishlistContext);
   const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   return (
     <div className="max-w-6xl mx-auto px-4 pt-32 lg:pt-28 pb-8">
+
+      <div className="mb-4">
+        <BackButton fallback="/" />
+      </div>
 
      <div className="text-center py-8 border-b border-pink-100 mb-8">
 
@@ -50,14 +58,20 @@ const WishlistPage = () => {
 
             <div
               key={item.productId}
-              className="bg-white rounded-2xl shadow-sm border border-pink-100 p-3 sm:p-4 hover:shadow-lg transition"
+              onClick={() => navigate(`/product/${item.productId}`)}
+              className="bg-white rounded-2xl shadow-sm border border-pink-100 p-3 sm:p-4 hover:shadow-lg transition cursor-pointer"
             >
 
-              <img
-                src={item.images?.[0] || 'https://via.placeholder.com/300'}
-                alt={item.name}
-                className="w-full h-44 sm:h-52 object-cover rounded-xl mb-4"
-              />
+              <div className="relative">
+                <img
+                  src={item.images?.[0] || 'https://via.placeholder.com/300'}
+                  alt={item.name}
+                  className="w-full h-44 sm:h-52 object-cover rounded-xl mb-4"
+                />
+                <div className="absolute top-2 right-2">
+                  <ShareButton product={item} />
+                </div>
+              </div>
 
               <h3 className="font-semibold text-sm sm:text-base line-clamp-2 text-gray-800">
                 {item.name}
@@ -71,7 +85,10 @@ const WishlistPage = () => {
 
                 {/* Add to Cart */}
                 <button
-                  onClick={() => addToCart(item)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(item);
+                  }}
                   className="flex-1 flex items-center justify-center gap-2 bg-pink-600 text-white py-2 rounded-xl hover:bg-pink-700 transition text-sm font-medium"
                 >
                   <FaShoppingCart />
@@ -80,7 +97,10 @@ const WishlistPage = () => {
 
                 {/* Remove from Wishlist */}
                 <button
-                  onClick={() => toggleWishlist(item)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleWishlist(item);
+                  }}
                   className="p-2 border rounded-xl text-red-500 hover:bg-red-50 transition"
                 >
                   <FaTrash />

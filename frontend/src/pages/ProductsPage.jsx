@@ -1,25 +1,39 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, Eye } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { WishlistContext } from '../context/WishlistContext';
 import { CartContext } from '../context/CartContext';
+import ShareButton from '../Components/ShareButton';
+import BackButton from '../Components/BackButton';
+import Loader from '../Components/Loader';
 
 const ProductsPage = () => {
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [category, setCategory] = useState('All');
   const [stockFilter, setStockFilter] = useState('All');
   const [priceFilter, setPriceFilter] = useState('All');
   const location = useLocation();
+  const navigate = useNavigate();
 
 const searchParams = new URLSearchParams(location.search);
 const searchQuery = searchParams.get('search') || '';
   const { addToCart } = useContext(CartContext);
   const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
+
+  // Sync category filter with the ?category= URL param (e.g. clicking a
+  // category tile on the home page, or navigating here again with a
+  // different category while already on this page).
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const cat = params.get('category');
+    setCategory(cat || 'All');
+  }, [location.search]);
 
   // Fetch products
   useEffect(() => {
@@ -29,7 +43,8 @@ const searchQuery = searchParams.get('search') || '';
         setProducts(res.data);
         setFilteredProducts(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
   }, []);
 
   // Apply filters
@@ -72,6 +87,11 @@ if (searchQuery.trim() !== '') {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mt-35">
 
+      {/* Back */}
+      <div className="mb-4">
+        <BackButton fallback="/" />
+      </div>
+
       {/* Luxury Heading */}
       <div className="text-center pb-10 border-b border-pink-100 mb-8">
 
@@ -112,6 +132,7 @@ if (searchQuery.trim() !== '') {
           <option value="Mobile Charm">Mobile Charm</option>
           <option value="Keychain">Keychain</option>
           <option value="Earring">Earring</option>
+          <option value="Hairband">Hairband</option>
           <option value="Ring">Ring</option>
           <option value="Bangles">Bangles</option>
           <option value="Others">Others</option>
@@ -149,12 +170,16 @@ if (searchQuery.trim() !== '') {
 )}
 
       {/* Products Grid */}
+      {loading ? (
+        <Loader label="Loading our jewelry collection..." />
+      ) : (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
 
         {filteredProducts.map((product) => (
           <div
             key={product.productId}
-            className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-pink-100 hover:-translate-y-1"
+            onClick={() => navigate(`/product/${product.productId}`)}
+            className="group bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden border border-pink-100 hover:-translate-y-1 cursor-pointer"
           >
 
             {/* Image */}
@@ -166,20 +191,27 @@ if (searchQuery.trim() !== '') {
                 className="w-full h-48 sm:h-60 lg:h-72 object-cover group-hover:scale-105 transition-transform duration-500"
               />
 
-              {/* Wishlist */}
-              <button
-                onClick={() => toggleWishlist(product)}
-                className="absolute top-3 right-3 bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
-              >
-                <Heart
-                  size={20}
-                  className={
-                    isInWishlist(product.productId)
-                      ? 'fill-red-500 text-red-500'
-                      : 'text-gray-500'
-                  }
-                />
-              </button>
+              <div className="absolute top-3 right-3 flex flex-col gap-2">
+                {/* Wishlist */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleWishlist(product);
+                  }}
+                  className="bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
+                >
+                  <Heart
+                    size={20}
+                    className={
+                      isInWishlist(product.productId)
+                        ? 'fill-red-500 text-red-500'
+                        : 'text-gray-500'
+                    }
+                  />
+                </button>
+
+                <ShareButton product={product} />
+              </div>
 
               {/* Stock Badge */}
               {product.stock > 0 ? (
@@ -214,7 +246,10 @@ if (searchQuery.trim() !== '') {
 
                 {/* Add to Cart */}
                 <button
-                  onClick={() => addToCart(product)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(product);
+                  }}
                   className="flex-1 flex items-center justify-center gap-2 bg-pink-600 text-white py-2 rounded-xl hover:bg-pink-700 transition text-sm font-medium shadow-sm"
                 >
                   <ShoppingCart size={18} />
@@ -224,6 +259,7 @@ if (searchQuery.trim() !== '') {
                 {/* Details */}
                 <Link
                   to={`/product/${product.productId}`}
+                  onClick={(e) => e.stopPropagation()}
                   className="flex-1"
                 >
                   <button className="w-full flex items-center justify-center gap-2 border border-pink-300 text-pink-700 py-2 rounded-xl hover:bg-pink-50 transition text-sm font-medium">
@@ -240,9 +276,10 @@ if (searchQuery.trim() !== '') {
         ))}
 
       </div>
+      )}
 
       {/* Empty State */}
-      {filteredProducts.length === 0 && (
+      {!loading && filteredProducts.length === 0 && (
         <div className="text-center py-16">
           <p className="text-gray-500 text-lg">
             No products found ✨

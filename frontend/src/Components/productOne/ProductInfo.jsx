@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaShoppingCart, FaTruck } from 'react-icons/fa';
 import QuantitySelector from './QuantitySelector';
+import ShareButton from '../ShareButton';
 
 const ProductInfo = ({ product, addToCart }) => {
 
@@ -129,6 +130,8 @@ const ProductInfo = ({ product, addToCart }) => {
             <FaShoppingCart />
             Add To Cart
           </button>
+
+          <ShareButton product={product} variant="text" />
 
         </div>
 

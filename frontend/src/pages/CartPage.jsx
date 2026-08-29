@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 import { FaWhatsapp, FaTrash } from 'react-icons/fa';
+import BackButton from '../Components/BackButton';
 
 const CartPage = () => {
   const { cart, removeFromCart } = useContext(CartContext);
@@ -21,6 +22,9 @@ const CartPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-40 py-8">
+    <div className="mb-4">
+      <BackButton fallback="/" />
+    </div>
     <div className="text-center py-8 border-b border-pink-100 mb-8">
 
   <p className="text-pink-500 uppercase tracking-[4px] text-xs sm:text-sm font-semibold mb-2">
