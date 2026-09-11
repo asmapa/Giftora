@@ -67,7 +67,7 @@ useEffect(() => {
       <div className="max-w-7xl mx-auto px-5">
 
         {/* Back */}
-        <div className="mb-4">
+        <div className="mb-4 mt-4">
           <BackButton fallback="/products" />
         </div>
 

@@ -23,7 +23,7 @@ const CartPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 pt-40 py-8">
-    <div className="mb-4">
+    <div className="mb-4 mt-3">
       <BackButton fallback="/" />
     </div>
     <div className="text-center py-8 border-b border-pink-100 mb-8">
