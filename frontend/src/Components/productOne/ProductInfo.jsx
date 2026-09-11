@@ -80,6 +80,12 @@ const ProductInfo = ({ product, addToCart }) => {
             <span className="font-semibold">Category:</span> {product.category}
           </p>
 
+          {product.color && (
+            <p className="text-gray-700">
+              <span className="font-semibold">Color:</span> {product.color}
+            </p>
+          )}
+
           <p className="text-gray-700">
             <span className="font-semibold">Availability:</span>{' '}
 

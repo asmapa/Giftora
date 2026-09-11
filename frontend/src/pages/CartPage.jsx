@@ -1,12 +1,13 @@
 
 import React, { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaWhatsapp, FaTrash } from 'react-icons/fa';
 import BackButton from '../Components/BackButton';
 
 const CartPage = () => {
   const { cart, removeFromCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const totalPrice = cart.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -64,7 +65,8 @@ const CartPage = () => {
             {cart.map((item) => (
               <div
                 key={item.productId}
-                className="flex gap-4 bg-white rounded-2xl shadow-sm border border-pink-100 p-4"
+                onClick={() => navigate(`/product/${item.productId}`)}
+                className="flex gap-4 bg-white rounded-2xl shadow-sm border border-pink-100 p-4 cursor-pointer hover:shadow-md transition"
               >
                 <img
                   src={item.images?.[0] || 'https://via.placeholder.com/150'}
@@ -87,7 +89,10 @@ const CartPage = () => {
                 </div>
 
                 <button
-                  onClick={() => removeFromCart(item.productId)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFromCart(item.productId);
+                  }}
                   className="text-red-500 hover:text-red-600 self-start p-2"
                 >
                   <FaTrash />

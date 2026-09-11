@@ -9,7 +9,9 @@ const AddProductPage = () => {
 
   const [formData, setFormData] = useState({
     name: '',
+    productType: 'Ornament',
     category: 'Necklace',
+    color: '',
     description: '',
     price: '',
     originalPrice: '',
@@ -20,6 +22,18 @@ const AddProductPage = () => {
     images: ['']
   });
 
+  // Ornament categories vs Material categories - shown depending on
+  // which Product Type is selected below.
+  const ORNAMENT_CATEGORIES = [
+    'Necklace', 'Bracelet', 'Anklet', 'Neck Chain', 'Mobile Charm',
+    'Keychain', 'Earring', 'Ring', 'Bangles', 'Hairband', 'Others'
+  ];
+
+  const MATERIAL_CATEGORIES = [
+    'Beads', 'Thread & Cord', 'Chains & Findings',
+    'Tools & Accessories', 'Other Materials'
+  ];
+
   const [loading, setLoading] = useState(false);
 const [selectedFiles, setSelectedFiles] = useState([]);
 const [previewImages, setPreviewImages] = useState([]);
@@ -27,6 +41,18 @@ const [previewImages, setPreviewImages] = useState([]);
   const handleChange = (e) => {
 
     const { name, value, type, checked } = e.target;
+
+    // When switching Product Type, jump category to the first valid
+    // option for that type so an Ornament category can't get saved
+    // against a Material product (or vice versa).
+    if (name === 'productType') {
+      setFormData((prev) => ({
+        ...prev,
+        productType: value,
+        category: value === 'Material' ? 'Beads' : 'Necklace'
+      }));
+      return;
+    }
 
     setFormData((prev) => ({
       ...prev,
@@ -203,6 +229,25 @@ const payload = {
             />
           </div>
 
+          {/* Product Type */}
+          <div>
+            <label className="block font-medium text-gray-700 mb-2">
+              Product Type
+            </label>
+            <select
+              name="productType"
+              value={formData.productType}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
+            >
+              <option value="Ornament">Ornament (finished jewelry)</option>
+              <option value="Material">Material (used to make ornaments)</option>
+            </select>
+            <p className="text-sm text-gray-500 mt-2">
+              Materials show up only on the "Materials" page, not in the regular Shop.
+            </p>
+          </div>
+
           {/* Category */}
           <div>
             <label className="block font-medium text-gray-700 mb-2">
@@ -214,17 +259,28 @@ const payload = {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
             >
-              <option value="Necklace">Necklace</option>
-              <option value="Bracelet">Bracelet</option>
-              <option value="Anklet">Anklet</option>
-              <option value="Neck Chain">Neck Chain</option>
-              <option value="Mobile Charm">Mobile Charm</option>
-              <option value="Keychain">Keychain</option>
-              <option value="Earring">Earring</option>
-              <option value="Ring">Ring</option>
-              <option value="Bangles">Bangles</option>
-              <option value="Others">Others</option>
+              {(formData.productType === 'Material'
+                ? MATERIAL_CATEGORIES
+                : ORNAMENT_CATEGORIES
+              ).map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
             </select>
+          </div>
+
+          {/* Color (optional) */}
+          <div>
+            <label className="block font-medium text-gray-700 mb-2">
+              Color <span className="text-gray-400 font-normal">(optional)</span>
+            </label>
+            <input
+              type="text"
+              name="color"
+              value={formData.color}
+              onChange={handleChange}
+              placeholder="e.g. Gold, Rose Gold, Silver — leave blank if not applicable"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
+            />
           </div>
 
           {/* Description */}

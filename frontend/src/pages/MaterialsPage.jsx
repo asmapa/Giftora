@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { Heart, ShoppingCart, Eye } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
-import { WishlistContext } from '../context/WishlistContext';
+import { ShoppingCart, Eye } from 'lucide-react';
 import { CartContext } from '../context/CartContext';
-import ShareButton from '../Components/ShareButton';
 import BackButton from '../Components/BackButton';
 import Loader from '../Components/Loader';
 
-const ProductsPage = () => {
+const MATERIAL_CATEGORIES = [
+  'Beads', 'Thread & Cord', 'Chains & Findings',
+  'Tools & Accessories', 'Other Materials'
+];
+
+const MaterialsPage = () => {
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -18,30 +20,20 @@ const ProductsPage = () => {
   const [category, setCategory] = useState('All');
   const [stockFilter, setStockFilter] = useState('All');
   const [priceFilter, setPriceFilter] = useState('All');
-  const location = useLocation();
+
   const navigate = useNavigate();
-
-const searchParams = new URLSearchParams(location.search);
-const searchQuery = searchParams.get('search') || '';
   const { addToCart } = useContext(CartContext);
-  const { toggleWishlist, isInWishlist } = useContext(WishlistContext);
 
-  // Sync category filter with the ?category= URL param (e.g. clicking a
-  // category tile on the home page, or navigating here again with a
-  // different category while already on this page).
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const cat = params.get('category');
-    setCategory(cat || 'All');
-  }, [location.search]);
-
-  // Fetch products
+  // Fetch products, keep only the raw-materials ones
   useEffect(() => {
     axios
       .get('https://giftora-7mmv.onrender.com/api/products')
       .then((res) => {
-        setProducts(res.data);
-        setFilteredProducts(res.data);
+        const materials = res.data.filter(
+          (item) => item.productType === 'Material'
+        );
+        setProducts(materials);
+        setFilteredProducts(materials);
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false));
@@ -50,34 +42,18 @@ const searchQuery = searchParams.get('search') || '';
   // Apply filters
   useEffect(() => {
 
-    // Shop page only shows finished jewelry (Ornaments).
-    // Raw materials live on their own "Materials" page.
-    let data = products.filter(
-      (item) => (item.productType || 'Ornament') === 'Ornament'
-    );
+    let data = [...products];
 
-    // Category filter
     if (category !== 'All') {
       data = data.filter((item) => item.category === category);
     }
 
-
-  // Search by product name only
-if (searchQuery.trim() !== '') {
-  data = data.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-}
-
-
-    // Stock filter
     if (stockFilter === 'InStock') {
       data = data.filter((item) => item.stock > 0);
     } else if (stockFilter === 'OutOfStock') {
       data = data.filter((item) => item.stock === 0);
     }
 
-    // Price sorting
     if (priceFilter === 'LowToHigh') {
       data.sort((a, b) => a.price - b.price);
     } else if (priceFilter === 'HighToLow') {
@@ -96,7 +72,7 @@ if (searchQuery.trim() !== '') {
         <BackButton fallback="/" />
       </div>
 
-      {/* Luxury Heading */}
+      {/* Heading */}
       <div className="text-center pb-10 border-b border-pink-100 mb-8">
 
         <p className="text-pink-500 uppercase tracking-[4px] text-xs sm:text-sm font-semibold mb-2">
@@ -104,12 +80,11 @@ if (searchQuery.trim() !== '') {
         </p>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-gray-800 leading-tight">
-          Timeless Elegance
+          Jewelry Making Materials
         </h1>
 
         <p className="text-gray-500 mt-4 max-w-2xl mx-auto text-sm sm:text-base lg:text-lg leading-relaxed px-4">
-          Discover handcrafted jewelry designed to add sparkle, grace, and elegance
-          to every special moment.
+          Beads, threads, chains, findings and tools for crafting your own jewelry.
         </p>
 
         <div className="flex items-center justify-center gap-3 mt-6">
@@ -129,17 +104,9 @@ if (searchQuery.trim() !== '') {
           className="border border-pink-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
         >
           <option value="All">All Categories</option>
-          <option value="Necklace">Necklace</option>
-          <option value="Bracelet">Bracelet</option>
-          <option value="Anklet">Anklet</option>
-          <option value="Neck Chain">Neck Chain</option>
-          <option value="Mobile Charm">Mobile Charm</option>
-          <option value="Keychain">Keychain</option>
-          <option value="Earring">Earring</option>
-          <option value="Hairband">Hairband</option>
-          <option value="Ring">Ring</option>
-          <option value="Bangles">Bangles</option>
-          <option value="Others">Others</option>
+          {MATERIAL_CATEGORIES.map((cat) => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
         </select>
 
         <select
@@ -164,18 +131,9 @@ if (searchQuery.trim() !== '') {
 
       </div>
 
-      {searchQuery && (
-  <p className="text-center text-gray-600 mb-6">
-    Showing results for
-    <span className="font-semibold text-pink-600">
-      {' '}"{searchQuery}"
-    </span>
-  </p>
-)}
-
       {/* Products Grid */}
       {loading ? (
-        <Loader label="Loading our jewelry collection..." />
+        <Loader label="Loading materials..." />
       ) : (
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
 
@@ -194,28 +152,6 @@ if (searchQuery.trim() !== '') {
                 alt={product.name}
                 className="w-full h-48 sm:h-60 lg:h-72 object-cover group-hover:scale-105 transition-transform duration-500"
               />
-
-              <div className="absolute top-3 right-3 flex flex-col gap-2">
-                {/* Wishlist */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleWishlist(product);
-                  }}
-                  className="bg-white p-2 rounded-full shadow-md hover:scale-110 transition"
-                >
-                  <Heart
-                    size={20}
-                    className={
-                      isInWishlist(product.productId)
-                        ? 'fill-red-500 text-red-500'
-                        : 'text-gray-500'
-                    }
-                  />
-                </button>
-
-                <ShareButton product={product} />
-              </div>
 
               {/* Stock Badge */}
               {product.stock > 0 ? (
@@ -286,10 +222,10 @@ if (searchQuery.trim() !== '') {
       {!loading && filteredProducts.length === 0 && (
         <div className="text-center py-16">
           <p className="text-gray-500 text-lg">
-            No products found ✨
+            No materials found ✨
           </p>
           <p className="text-gray-400 text-sm mt-2">
-            Try changing the filters to discover more beautiful pieces.
+            Try changing the filters, or check back soon for new arrivals.
           </p>
         </div>
       )}
@@ -298,4 +234,4 @@ if (searchQuery.trim() !== '') {
   );
 };
 
-export default ProductsPage;
+export default MaterialsPage;

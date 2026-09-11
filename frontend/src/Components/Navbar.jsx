@@ -135,6 +135,8 @@ const cartCount = cart.reduce((total, item) => {
 
   <NavLink to="/products">Shop</NavLink>
 
+  <NavLink to="/materials">Materials</NavLink>
+
   <NavLink to="/#about">About</NavLink>
 
   <NavLink to="/#contact">Contact</NavLink>

@@ -19,9 +19,22 @@ const [previewImages, setPreviewImages] = useState([]);
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
+  const [productTypeFilter, setProductTypeFilter] = useState('All');
   const [stockFilter, setStockFilter] = useState('All');
   const [loading, setLoading] = useState(true);
 const navigate = useNavigate();
+
+  // Ornament categories vs Material categories - used both in the
+  // filter dropdown and the Edit modal's category dropdown.
+  const ORNAMENT_CATEGORIES = [
+    'Necklace', 'Bracelet', 'Anklet', 'Neck Chain', 'Mobile Charm',
+    'Keychain', 'Earring', 'Ring', 'Bangles', 'Hairband', 'Others'
+  ];
+
+  const MATERIAL_CATEGORIES = [
+    'Beads', 'Thread & Cord', 'Chains & Findings',
+    'Tools & Accessories', 'Other Materials'
+  ];
   // Fetch products
   const fetchProducts = async () => {
     try {
@@ -178,6 +191,11 @@ const handleUpdateProduct = async () => {
       data = data.filter((item) => item.category === category);
     }
 
+    // Product Type (Ornament / Material)
+    if (productTypeFilter !== 'All') {
+      data = data.filter((item) => (item.productType || 'Ornament') === productTypeFilter);
+    }
+
     // Stock
     if (stockFilter === 'InStock') {
       data = data.filter((item) => item.stock > 0);
@@ -187,7 +205,7 @@ const handleUpdateProduct = async () => {
 
     return data;
 
-  }, [products, search, category, stockFilter]);
+  }, [products, search, category, productTypeFilter, stockFilter]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-100 px-4 py-8 md:px-8">
@@ -230,7 +248,7 @@ const handleUpdateProduct = async () => {
         {/* Filters */}
         <div className="bg-white rounded-2xl shadow-md border border-pink-100 p-4 md:p-6 mb-8">
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
             {/* Search */}
             <div className="relative">
@@ -247,6 +265,17 @@ const handleUpdateProduct = async () => {
 
             </div>
 
+            {/* Product Type */}
+            <select
+              value={productTypeFilter}
+              onChange={(e) => setProductTypeFilter(e.target.value)}
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
+            >
+              <option value="All">All Types</option>
+              <option value="Ornament">Ornaments</option>
+              <option value="Material">Materials</option>
+            </select>
+
             {/* Category */}
             <div className="relative">
 
@@ -258,16 +287,16 @@ const handleUpdateProduct = async () => {
                 className="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
               >
                 <option value="All">All Categories</option>
-                <option value="Necklace">Necklace</option>
-                <option value="Bracelet">Bracelet</option>
-                <option value="Anklet">Anklet</option>
-                <option value="Neck Chain">Neck Chain</option>
-                <option value="Mobile Charm">Mobile Charm</option>
-                <option value="Keychain">Keychain</option>
-                <option value="Earring">Earring</option>
-                <option value="Ring">Ring</option>
-                <option value="Bangles">Bangles</option>
-                <option value="Others">Others</option>
+                <optgroup label="Ornaments">
+                  {ORNAMENT_CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Materials">
+                  {MATERIAL_CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </optgroup>
               </select>
 
             </div>
@@ -383,6 +412,16 @@ const handleUpdateProduct = async () => {
                             {product.category}
                           </span>
 
+                          <span className="text-xs bg-purple-100 text-purple-700 px-3 py-1 rounded-full">
+                            {product.productType || 'Ornament'}
+                          </span>
+
+                          {product.color && (
+                            <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+                              Color: {product.color}
+                            </span>
+                          )}
+
                           {product.stock > 0 ? (
                             <span className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full">
                               In Stock ({product.stock})
@@ -494,6 +533,27 @@ const handleUpdateProduct = async () => {
   />
 
   <select
+    value={editingProduct.productType || 'Ornament'}
+    onChange={(e) => {
+      const newType = e.target.value;
+      const validCats = newType === 'Material' ? MATERIAL_CATEGORIES : ORNAMENT_CATEGORIES;
+      setEditingProduct({
+        ...editingProduct,
+        productType: newType,
+        // Keep current category if it's still valid for the new type,
+        // otherwise fall back to the first option of that type.
+        category: validCats.includes(editingProduct.category)
+          ? editingProduct.category
+          : validCats[0]
+      });
+    }}
+    className="border rounded-xl px-4 py-3"
+  >
+    <option value="Ornament">Ornament</option>
+    <option value="Material">Material</option>
+  </select>
+
+  <select
     value={editingProduct.category}
     onChange={(e) =>
       setEditingProduct({
@@ -503,17 +563,26 @@ const handleUpdateProduct = async () => {
     }
     className="border rounded-xl px-4 py-3"
   >
-    <option value="Necklace">Necklace</option>
-    <option value="Bracelet">Bracelet</option>
-    <option value="Anklet">Anklet</option>
-    <option value="Neck Chain">Neck Chain</option>
-    <option value="Mobile Charm">Mobile Charm</option>
-    <option value="Keychain">Keychain</option>
-    <option value="Earring">Earring</option>
-    <option value="Ring">Ring</option>
-    <option value="Bangles">Bangles</option>
-    <option value="Others">Others</option>
+    {((editingProduct.productType || 'Ornament') === 'Material'
+      ? MATERIAL_CATEGORIES
+      : ORNAMENT_CATEGORIES
+    ).map((cat) => (
+      <option key={cat} value={cat}>{cat}</option>
+    ))}
   </select>
+
+  <input
+    type="text"
+    value={editingProduct.color || ''}
+    onChange={(e) =>
+      setEditingProduct({
+        ...editingProduct,
+        color: e.target.value
+      })
+    }
+    className="border rounded-xl px-4 py-3"
+    placeholder="Color (optional)"
+  />
 
   <input
     type="number"

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import ProductsPage from './pages/ProductsPage';
+import MaterialsPage from './pages/MaterialsPage';
 import Navbar from './Components/Navbar';
 
 import CartPage from './pages/CartPage';
@@ -78,6 +79,8 @@ function AppLayout() {
           <Route path="/wishlist" element={<WishlistPage />} />
 
           <Route path="/products" element={<ProductsPage />} />
+
+          <Route path="/materials" element={<MaterialsPage />} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />
