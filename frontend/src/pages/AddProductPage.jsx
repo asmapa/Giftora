@@ -11,7 +11,7 @@ const AddProductPage = () => {
     name: '',
     productType: 'Ornament',
     category: 'Necklace',
-    color: '',
+    colorsInput: '',
     description: '',
     price: '',
     originalPrice: '',
@@ -156,6 +156,10 @@ const imageUrls = await uploadImagesToCloudinary();
 
 const payload = {
   ...formData,
+  colors: formData.colorsInput
+    .split(',')
+    .map((c) => c.trim())
+    .filter((c) => c.length > 0),
   price: Number(formData.price),
   originalPrice: formData.originalPrice
     ? Number(formData.originalPrice)
@@ -166,6 +170,8 @@ const payload = {
   stock: Number(formData.stock),
   images: imageUrls
 };
+
+delete payload.colorsInput;
 
       await axios.post(
         'https://giftora-7mmv.onrender.com/api/products',
@@ -268,19 +274,22 @@ const payload = {
             </select>
           </div>
 
-          {/* Color (optional) */}
+          {/* Colors (optional) */}
           <div>
             <label className="block font-medium text-gray-700 mb-2">
-              Color <span className="text-gray-400 font-normal">(optional)</span>
+              Colors <span className="text-gray-400 font-normal">(optional)</span>
             </label>
             <input
               type="text"
-              name="color"
-              value={formData.color}
+              name="colorsInput"
+              value={formData.colorsInput}
               onChange={handleChange}
-              placeholder="e.g. Gold, Rose Gold, Silver — leave blank if not applicable"
+              placeholder="e.g. Gold, Silver, Rose Gold — separate multiple with commas, leave blank if not applicable"
               className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
             />
+            <p className="text-sm text-gray-500 mt-2">
+              Customers will be able to pick one of these colors before adding to cart.
+            </p>
           </div>
 
           {/* Description */}

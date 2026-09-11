@@ -140,6 +140,10 @@ const handleUpdateProduct = async () => {
 
     const payload = {
       ...editingProduct,
+      colors: (editingProduct.colorsInput || '')
+        .split(',')
+        .map((c) => c.trim())
+        .filter((c) => c.length > 0),
       images: imageUrls,
       price: Number(editingProduct.price),
       stock: Number(editingProduct.stock),
@@ -150,6 +154,8 @@ const handleUpdateProduct = async () => {
         ? Number(editingProduct.discountPercent)
         : 0
     };
+
+    delete payload.colorsInput;
 
     await axios.put(
       `https://giftora-7mmv.onrender.com/api/products/${editingProduct.productId}`,
@@ -416,9 +422,9 @@ const handleUpdateProduct = async () => {
                             {product.productType || 'Ornament'}
                           </span>
 
-                          {product.color && (
+                          {product.colors?.length > 0 && (
                             <span className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
-                              Color: {product.color}
+                              Colors: {product.colors.join(', ')}
                             </span>
                           )}
 
@@ -465,7 +471,10 @@ const handleUpdateProduct = async () => {
 
                         <button
   onClick={() => {
-    setEditingProduct(product);
+    setEditingProduct({
+      ...product,
+      colorsInput: (product.colors || []).join(', ')
+    });
     setPreviewImages(product.images || []);
     setSelectedFiles([]);
     setShowEditModal(true);
@@ -573,15 +582,15 @@ const handleUpdateProduct = async () => {
 
   <input
     type="text"
-    value={editingProduct.color || ''}
+    value={editingProduct.colorsInput || ''}
     onChange={(e) =>
       setEditingProduct({
         ...editingProduct,
-        color: e.target.value
+        colorsInput: e.target.value
       })
     }
     className="border rounded-xl px-4 py-3"
-    placeholder="Color (optional)"
+    placeholder="Colors, comma separated (optional)"
   />
 
   <input

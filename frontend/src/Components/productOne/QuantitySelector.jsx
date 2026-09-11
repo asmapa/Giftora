@@ -1,17 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
-const QuantitySelector = () => {
-  const [quantity, setQuantity] = useState(1);
-
-  const increaseQty = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const decreaseQty = () => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
-    }
-  };
+// Controlled component - the selected quantity lives in the parent
+// (ProductInfo) so it can be passed along to addToCart / WhatsApp.
+const QuantitySelector = ({ quantity, onIncrease, onDecrease }) => {
 
   return (
     <div>
@@ -20,7 +11,8 @@ const QuantitySelector = () => {
       <div className="flex items-center gap-3">
 
         <button
-          onClick={decreaseQty}
+          type="button"
+          onClick={onDecrease}
           className="w-10 h-10 border rounded-lg text-xl font-bold hover:bg-gray-100"
         >
           -
@@ -31,7 +23,8 @@ const QuantitySelector = () => {
         </span>
 
         <button
-          onClick={increaseQty}
+          type="button"
+          onClick={onIncrease}
           className="w-10 h-10 border rounded-lg text-xl font-bold hover:bg-gray-100"
         >
           +

@@ -87,7 +87,7 @@ const WishlistPage = () => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    addToCart(item);
+                    addToCart(item, 1, item.colors?.[0] || null);
                   }}
                   className="flex-1 flex items-center justify-center gap-2 bg-pink-600 text-white py-2 rounded-xl hover:bg-pink-700 transition text-sm font-medium"
                 >

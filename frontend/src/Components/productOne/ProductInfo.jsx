@@ -1,11 +1,68 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaShoppingCart, FaTruck } from 'react-icons/fa';
 import QuantitySelector from './QuantitySelector';
 import ShareButton from '../ShareButton';
 
+// Best-effort hex mapping for common jewelry color names so the swatch
+// actually looks like the color. Anything not in this list still shows
+// as a clickable pill, just without a colored dot filled in.
+const COLOR_HEX_MAP = {
+  gold: '#D4AF37',
+  golden: '#D4AF37',
+  'rose gold': '#B76E79',
+  rosegold: '#B76E79',
+  silver: '#C0C0C0',
+  black: '#000000',
+  white: '#FFFFFF',
+  red: '#DC2626',
+  blue: '#2563EB',
+  'sky blue': '#38BDF8',
+  green: '#16A34A',
+  pink: '#EC4899',
+  'baby pink': '#F9A8D4',
+  purple: '#9333EA',
+  lavender: '#C4B5FD',
+  yellow: '#EAB308',
+  orange: '#F97316',
+  brown: '#92400E',
+  maroon: '#7F1D1D',
+  navy: '#1E3A8A',
+  beige: '#E8DCC8',
+  cream: '#FFFDD0',
+  peach: '#FFE5B4',
+  teal: '#0D9488',
+  turquoise: '#40E0D0',
+  grey: '#9CA3AF',
+  gray: '#9CA3AF',
+  copper: '#B87333',
+  bronze: '#CD7F32',
+  mint: '#A7F3D0'
+};
+
+const getSwatchColor = (colorName) => {
+  const hex = COLOR_HEX_MAP[colorName.trim().toLowerCase()];
+  return hex || '#f3f4f6';
+};
+
 const ProductInfo = ({ product, addToCart }) => {
 
   const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(
+    product.colors?.[0] || null
+  );
+  const [quantity, setQuantity] = useState(1);
+
+  // Reset the selected color/quantity/image whenever the customer
+  // navigates to a different product (this component instance is reused
+  // across product pages, so its state doesn't reset on its own).
+  useEffect(() => {
+    setSelectedImage(0);
+    setSelectedColor(product.colors?.[0] || null);
+    setQuantity(1);
+  }, [product.productId]);
+
+  const increaseQty = () => setQuantity((prev) => prev + 1);
+  const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
   return (
     <div className="grid lg:grid-cols-2 gap-12 bg-white rounded-xl shadow-md p-6 mt-10">
@@ -80,12 +137,6 @@ const ProductInfo = ({ product, addToCart }) => {
             <span className="font-semibold">Category:</span> {product.category}
           </p>
 
-          {product.color && (
-            <p className="text-gray-700">
-              <span className="font-semibold">Color:</span> {product.color}
-            </p>
-          )}
-
           <p className="text-gray-700">
             <span className="font-semibold">Availability:</span>{' '}
 
@@ -121,16 +172,60 @@ const ProductInfo = ({ product, addToCart }) => {
 
         </div>
 
+        {/* Colors - only shown when the product actually has color options */}
+        {product.colors?.length > 0 && (
+          <div className="mt-8">
+
+            <h3 className="font-semibold text-lg mb-3">
+              Color{selectedColor ? `: ${selectedColor}` : ''}
+            </h3>
+
+            <div className="flex flex-wrap gap-3">
+
+              {product.colors.map((c) => {
+                const isSelected = selectedColor === c;
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setSelectedColor(c)}
+                    title={c}
+                    className={`flex items-center gap-2 pl-1 pr-3 py-1 rounded-full border-2 transition ${
+                      isSelected
+                        ? 'border-pink-600 bg-pink-50'
+                        : 'border-gray-200 hover:border-pink-300'
+                    }`}
+                  >
+                    <span
+                      className="w-6 h-6 rounded-full border border-gray-300 shadow-inner"
+                      style={{ backgroundColor: getSwatchColor(c) }}
+                    />
+                    <span className="text-sm font-medium text-gray-700">
+                      {c}
+                    </span>
+                  </button>
+                );
+              })}
+
+            </div>
+
+          </div>
+        )}
+
         {/* Quantity */}
         <div className="mt-8">
-          <QuantitySelector />
+          <QuantitySelector
+            quantity={quantity}
+            onIncrease={increaseQty}
+            onDecrease={decreaseQty}
+          />
         </div>
 
         {/* Buttons */}
         <div className="flex flex-wrap gap-4 mt-8">
 
           <button
-            onClick={() => addToCart(product)}
+            onClick={() => addToCart(product, quantity, selectedColor)}
             className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-lg transition shadow-md"
           >
             <FaShoppingCart />

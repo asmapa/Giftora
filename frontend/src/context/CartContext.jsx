@@ -18,26 +18,38 @@ const CartProvider = ({ children }) => {
 
     }, [cart]);
 
-    const removeFromCart = (productId) => {
+    const removeFromCart = (productId, color = null) => {
   setCart((prev) =>
-    prev.filter((item) => item.productId !== productId)
+    prev.filter(
+      (item) =>
+        !(
+          item.productId === productId &&
+          (item.selectedColor || null) === (color || null)
+        )
+    )
   );
 };
 
-    // Function to add product
-   const addToCart = (product) => {
+    // Function to add product. quantity defaults to 1, color defaults to
+    // null (no color selected / not applicable). Two cart lines for the
+    // same product but different colors are kept separate so the WhatsApp
+    // order message can show them distinctly.
+   const addToCart = (product, quantity = 1, color = null) => {
 
     const existingProduct = cart.find(
-        item => item.productId === product.productId
+        item =>
+            item.productId === product.productId &&
+            (item.selectedColor || null) === (color || null)
     );
 
     if (existingProduct) {
 
         const updatedCart = cart.map(item =>
 
-            item.productId === product.productId
+            item.productId === product.productId &&
+            (item.selectedColor || null) === (color || null)
 
-                ? { ...item, quantity: item.quantity + 1 }
+                ? { ...item, quantity: item.quantity + quantity }
 
                 : item
 
@@ -51,7 +63,8 @@ const CartProvider = ({ children }) => {
             ...cart,
             {
                 ...product,
-                quantity: 1
+                selectedColor: color || null,
+                quantity
             }
         ]);
 

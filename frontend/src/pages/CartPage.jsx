@@ -17,7 +17,7 @@ const CartPage = () => {
   const whatsappMessage = cart
     .map(
       (item) =>
-        `${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}`
+        `${item.name}${item.selectedColor ? ` (Color: ${item.selectedColor})` : ''} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}`
     )
     .join('%0A');
 
@@ -64,7 +64,7 @@ const CartPage = () => {
           <div className="lg:col-span-2 space-y-4">
             {cart.map((item) => (
               <div
-                key={item.productId}
+                key={`${item.productId}-${item.selectedColor || 'default'}`}
                 onClick={() => navigate(`/product/${item.productId}`)}
                 className="flex gap-4 bg-white rounded-2xl shadow-sm border border-pink-100 p-4 cursor-pointer hover:shadow-md transition"
               >
@@ -83,6 +83,12 @@ const CartPage = () => {
                     ₹ {item.price}
                   </p>
 
+                  {item.selectedColor && (
+                    <p className="text-sm text-gray-600 mt-1">
+                      Color: <span className="font-medium">{item.selectedColor}</span>
+                    </p>
+                  )}
+
                   <p className="text-sm text-gray-500 mt-1">
                     Quantity: {item.quantity}
                   </p>
@@ -91,7 +97,7 @@ const CartPage = () => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    removeFromCart(item.productId);
+                    removeFromCart(item.productId, item.selectedColor);
                   }}
                   className="text-red-500 hover:text-red-600 self-start p-2"
                 >
